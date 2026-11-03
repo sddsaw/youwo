@@ -50,8 +50,10 @@ import {
   Undo,
 } from 'ckeditor5'
 import translations from 'ckeditor5/translations/zh-cn.js'
-import { computed } from 'vue'
-import { FormulaEntry, WavyUnderline, WpsPasteHandler } from './plugins'
+import { computed, onBeforeUnmount, onMounted, shallowRef } from 'vue'
+import { FormulaEntry, LineHeight, WavyUnderline, WpsPasteHandler } from './plugins'
+import MathlivePanelview from './plugins/mathlive/components/panelview'
+import Mathlive from './plugins/mathlive/mathlive'
 
 import 'ckeditor5/ckeditor5.css'
 
@@ -73,19 +75,101 @@ const props = withDefaults(
     mode?: 'classic' | 'inline'
     /** 工具栏溢出时是否不折叠分组 */
     shouldNotGroupWhenFull?: boolean
+    /** 是否启用数学公式编辑 */
+    enableMath?: boolean
+    /** 自定义工具栏配置项 */
+    toolbarItems?: string[]
   }>(),
   {
     placeholder: '请输入内容...',
     disabled: false,
-    minHeight: '300px',
+    minHeight: '34px',
     maxHeight: '600px',
-    mode: 'classic',
+    mode: 'inline',
     shouldNotGroupWhenFull: false,
+    enableMath: true,
   },
 )
 
 // 定义 v-model:value 双向绑定 (适配 Naive UI 风格)
 const editorData = defineModel<string>('value', { default: '' })
+const normalizedEditorData = computed<string>({
+  get: () => editorData.value ?? '',
+  set: (value) => {
+    editorData.value = value
+  },
+})
+
+const toolbarContainerRef = shallowRef<HTMLElement | null>(null)
+
+// 默认工具栏配置（移除了段落[heading]、移除格式[removeFormat]、超链接[link]、水平线[horizontalLine]、块引用[blockQuote]）
+const defaultToolbarItems = computed(() => {
+  return [
+    'fontFamily',
+    'fontSize',
+    'fontColor',
+    'fontBackgroundColor',
+    'highlight',
+    '|',
+    'bold',
+    'italic',
+    'underline',
+    'wavyUnderline',
+    props.enableMath ? 'mathlive' : 'formulaEntry',
+    'strikethrough',
+    'subscript',
+    'superscript',
+    'code',
+    '|',
+    'alignment',
+    'lineHeight',
+    '|',
+    'numberedList',
+    'bulletedList',
+    'outdent',
+    'indent',
+    '|',
+    'insertImage',
+    'mediaEmbed',
+    'insertTable',
+    'specialCharacters',
+  ]
+})
+
+const activeToolbarItems = computed(() => {
+  if (props.toolbarItems && props.toolbarItems.length > 0) {
+    return props.toolbarItems.map((item) => {
+      if (item === 'mathlive' || item === 'formulaEntry') {
+        return props.enableMath ? 'mathlive' : 'formulaEntry'
+      }
+      return item
+    })
+  }
+  return defaultToolbarItems.value
+})
+
+// 数学公式配置
+function getMathConfig() {
+  return {
+    processClass: 'math-tex',
+    mathPanelDestroyOnClose: false,
+    openPanelWhenEquationSelected: true,
+    renderMathPanel: (element: HTMLElement) => {
+      let panelView: MathlivePanelview | null = new MathlivePanelview()
+      panelView.mount(element)
+      return () => {
+        panelView?.destroy()
+        panelView = null
+      }
+    },
+    output: {
+      type: 'span',
+      attributes: {
+        class: 'math-tex',
+      },
+    },
+  }
+}
 
 // 动态生成 CKEditor 配置
 const editorConfig = computed(() => {
@@ -136,49 +220,21 @@ const editorConfig = computed(() => {
     TextTransformation,
     WavyUnderline,
     WpsPasteHandler,
-    FormulaEntry,
+    LineHeight,
     Base64UploadAdapter,
   ]
+
+  if (props.enableMath) {
+    plugins.push(Mathlive)
+  }
+  else {
+    plugins.push(FormulaEntry)
+  }
 
   return {
     plugins,
     toolbar: {
-      items: [
-        'heading',
-        '|',
-        'fontFamily',
-        'fontSize',
-        'fontColor',
-        'fontBackgroundColor',
-        'highlight',
-        '|',
-        'bold',
-        'italic',
-        'underline',
-        'wavyUnderline',
-        'formulaEntry',
-        'strikethrough',
-        'subscript',
-        'superscript',
-        'code',
-        'removeFormat',
-        'selectAll',
-        '|',
-        'alignment',
-        '|',
-        'numberedList',
-        'bulletedList',
-        'outdent',
-        'indent',
-        '|',
-        'link',
-        'insertImage',
-        'mediaEmbed',
-        'insertTable',
-        'blockQuote',
-        'horizontalLine',
-        'specialCharacters',
-      ],
+      items: activeToolbarItems.value,
       shouldNotGroupWhenFull: props.shouldNotGroupWhenFull,
     },
     image: {
@@ -206,19 +262,80 @@ const editorConfig = computed(() => {
     placeholder: props.placeholder,
     licenseKey: 'GPL', // GPL 免费模式声明
     translations: [translations],
+    ...(props.enableMath && { mathlive: getMathConfig() }),
+  }
+})
+
+/**
+ * 在无界 (Wujie) 等微前端 Shadow DOM 环境下，
+ * 子应用的 document.body 位于宿主页面的某一偏移位置（例如左侧侧边栏、顶部导航条后）。
+ * CKEditor 的气泡工具栏 (BalloonPanel) 是通过 getBoundingClientRect() 计算相对于主视口的绝对坐标，
+ * 当挂载在子应用的 ShadowRoot/body 时，会叠加宿主容器的左上角偏移，导致工具栏右移和下移。
+ * 此处检测宿主容器的物理偏移，并通过 CSS 变量实时修正 translate。
+ */
+function syncWujieOffset() {
+  if (typeof document === 'undefined')
+    return
+
+  let host: Element | null = null
+
+  const win = window as any
+  if (win.$wujie?.shadowRoot?.host) {
+    host = win.$wujie.shadowRoot.host
+  }
+
+  if (!host && typeof document.body?.getRootNode === 'function') {
+    const root = document.body.getRootNode()
+    if (root instanceof ShadowRoot && root.host) {
+      host = root.host
+    }
+  }
+
+  if (!host) {
+    host = document.querySelector('wujie-app')
+  }
+
+  if (host) {
+    const rect = host.getBoundingClientRect()
+    document.documentElement.style.setProperty('--wujie-offset-left', `${rect.left}px`)
+    document.documentElement.style.setProperty('--wujie-offset-top', `${rect.top}px`)
+  }
+}
+
+onMounted(() => {
+  syncWujieOffset()
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', syncWujieOffset)
+    window.addEventListener('scroll', syncWujieOffset, true)
+    window.addEventListener('focusin', syncWujieOffset)
+  }
+})
+
+onBeforeUnmount(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', syncWujieOffset)
+    window.removeEventListener('scroll', syncWujieOffset, true)
+    window.removeEventListener('focusin', syncWujieOffset)
   }
 })
 </script>
 
 <template>
-  <div class="w-100%" :style="{ '--min-height': props.minHeight, '--max-height': props.maxHeight }">
+  <div
+    class="w-100%"
+    :style="{ '--min-height': props.minHeight, '--max-height': props.maxHeight }"
+    @focusin="syncWujieOffset"
+    @click="syncWujieOffset"
+  >
+    <div ref="toolbarContainerRef" />
     <Ckeditor
-      v-model="editorData"
-      class="question-item"
-      :class="{ 'is-disabled': props.disabled }"
+      v-model="normalizedEditorData"
       :editor="props.mode === 'inline' ? InlineEditor : ClassicEditor"
       :config="editorConfig"
       :disabled="props.disabled"
+      class="question-item"
+      :class="{ 'is-disabled': props.disabled }"
+      @focus="syncWujieOffset"
     />
   </div>
 </template>
@@ -234,45 +351,36 @@ const editorConfig = computed(() => {
   display: none !important;
 }
 
-/* 解决内联模式工具栏定位闪烁问题：利用 @keyframes 避开 display: none -> block 无法触发 transition 的限制 */
-/* @keyframes ck-balloon-fade-in {
-  0%, 80% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
+/* CKEditor 气泡浮层在无界微前端 (Shadow DOM) 环境下的定位偏差修正 */
 :global(.ck.ck-balloon-panel) {
-  opacity: 0;
-  pointer-events: none;
+  transform: translate(calc(-1 * var(--wujie-offset-left, 0px)), calc(-1 * var(--wujie-offset-top, 0px))) !important;
 }
 
-:global(.ck.ck-balloon-panel.ck-balloon-panel_visible) {
-  pointer-events: auto;
-  animation: ck-balloon-fade-in 80ms ease-out forwards;
-} */
-
-/* 编辑器容器样式 */
+/* 编辑器容器样式 —— 与 Naive UI Input/Select 完全一致 */
 .question-item {
   flex: 1;
-  background-color: #fff;
-  border: 1px solid var(--border, #d9d9d9);
-  border-radius: 4px !important;
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgb(224, 224, 230);
+  border-radius: 6px !important;
   box-sizing: border-box;
-  color: #333;
-  margin-left: 8px;
+  color: rgb(51, 54, 57);
+  font-size: 14px;
+  /* margin-left: 8px; */
   min-height: var(--min-height, 34px);
   max-height: var(--max-height, 600px);
   padding: 3px 8px;
   word-break: break-word;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question-item:hover {
+  border-color: #646cff;
 }
 
 /* 禁用状态样式 */
 .question-item.is-disabled {
-  background-color: #f5f5f5;
+  background-color: rgb(250, 250, 252);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -283,20 +391,20 @@ const editorConfig = computed(() => {
   margin-top: 0 !important;
 }
 
-/* 局部穿透覆盖 CKEditor 编辑区域样式 */
+/* 去掉 CKEditor 内部编辑区自带的边框，由外层容器统一管理 */
 .question-item :deep(.ck-editor__editable_inline) {
-  border: 1px solid #d9d9d9 !important;
-  padding: 3px 8px !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
   min-height: var(--min-height, 34px);
   max-height: var(--max-height, 600px);
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
 
 /* 聚焦状态样式 */
-.question-item :deep(.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable)) {
-  border: 1px solid #386bff !important;
-  box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.1) !important;
-  outline: none !important;
+.question-item:focus-within {
+  border-color: #646cff;
+  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
 }
 
 /* 数学公式样式 */
@@ -310,5 +418,12 @@ const editorConfig = computed(() => {
 /* 波浪下划线样式 */
 .question-item :deep(.wavy-underline) {
   text-decoration: underline wavy;
+}
+
+/* placeholder 样式 —— 与 Naive UI 的 placeholder 保持一致 */
+.question-item :deep(.ck-placeholder::before) {
+  color: var(--n-placeholder-color, #c2c2c2) !important;
+  font-size: 14px;
+  font-style: normal;
 }
 </style>

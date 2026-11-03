@@ -1,0 +1,44 @@
+diff --git a/mathlive.mjs b/mathlive.mjs
+--- a/mathlive.mjs
++++ b/mathlive.mjs
+@@ -13253,2 +13253,3 @@
+ var gStylesheets;
++var useConstructedStylesheets = false;
+ function getStylesheetContent(id) {
+@@ -13311,6 +13312,6 @@ function injectStylesheet(id) {
+   var _a3;
+   try {
+-    if (!("adoptedStyleSheets" in document)) {
++    if (!useConstructedStylesheets || !("adoptedStyleSheets" in document)) {
+       if (window.document.getElementById(`mathlive-style-${id}`)) return;
+       const styleNode = window.document.createElement("style");
+       styleNode.id = `mathlive-style-${id}`;
+@@ -39739,7 +39740,7 @@ var _MathfieldElement = class _MathfieldElement extends HTMLElement {
+       this._internals.ariaMultiLine = "false";
+     }
+     this.attachShadow({ mode: "open", delegatesFocus: true });
+-    if (this.shadowRoot && "adoptedStyleSheets" in this.shadowRoot) {
++    if (this.shadowRoot && useConstructedStylesheets && "adoptedStyleSheets" in this.shadowRoot) {
+       this.shadowRoot.adoptedStyleSheets = [
+         getStylesheet("core"),
+         getStylesheet("mathfield"),
+diff --git a/package.json b/package.json
+--- a/package.json
++++ b/package.json
+@@ -38,6 +38,6 @@
+         "production": {
+           "types": "./types/mathlive.d.ts",
+-          "import": "./mathlive.min.mjs",
++          "import": "./mathlive.mjs",
+           "require": "./mathlive.min.js"
+         },
+         "development": {
+@@ -48,7 +48,7 @@
+       },
+       "default": {
+         "types": "./types/mathlive.d.ts",
+-        "import": "./mathlive.min.mjs",
++        "import": "./mathlive.mjs",
+         "require": "./mathlive.min.js"
+       }
+     },

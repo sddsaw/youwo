@@ -35,7 +35,8 @@
     "@sa/color": "workspace:*",
     "@sa/hooks": "workspace:*",
     "ckeditor5": "catalog:",
-    "cropperjs": "^1.6.2"
+    "cropperjs": "^1.6.2",
+    "mathlive": "catalog:"
   },
   "devDependencies": {
     "@iconify/vue": "catalog:",

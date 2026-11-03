@@ -172,16 +172,7 @@ const routeMap: RouteMap = {
   "demo_rich-editor": "/demo/rich-editor",
   "home": "/home",
   "iframe-page": "/iframe-page/:url",
-  "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
-  "monitor": "/monitor",
-  "monitor_data": "/monitor/data",
-  "monitor_online": "/monitor/online",
-  "system": "/system",
-  "system_announcement": "/system/announcement",
-  "system_dict": "/system/dict",
-  "system_menu": "/system/menu",
-  "system_role": "/system/role",
-  "system_user": "/system/user"
+  "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?"
 };
 
 /**

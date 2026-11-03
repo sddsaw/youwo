@@ -1,23 +1,10 @@
 {
   "ant-design": [
-    "apartment-outlined",
-    "bar-chart-outlined",
     "close-outlined",
     "column-width-outlined",
-    "database-outlined",
-    "line-chart-outlined",
     "line-outlined",
-    "money-collect-outlined",
-    "monitor-outlined",
-    "notification-outlined",
     "reload-outlined",
-    "setting-outlined",
-    "team-outlined",
-    "trademark-circle-outlined",
-    "user-outlined"
-  ],
-  "carbon": [
-    "document-download"
+    "setting-outlined"
   ],
   "fluent": [
     "alert-24-regular",
@@ -40,9 +27,7 @@
   ],
   "ic": [
     "round-delete",
-    "round-plus",
-    "round-refresh",
-    "round-search"
+    "round-plus"
   ],
   "line-md": [
     "menu-fold-left",
@@ -52,8 +37,16 @@
     "color-swatch-line"
   ],
   "material-symbols": [
+    "add",
+    "chevron-right-rounded",
+    "description-outline",
+    "folder-open-outline",
+    "folder-zip-outline-rounded",
     "hdr-auto",
+    "list-alt-outline-rounded",
     "nightlight-rounded",
+    "picture-as-pdf-outline-rounded",
+    "search-rounded",
     "sunny"
   ],
   "mdi": [
@@ -64,7 +57,6 @@
     "format-horizontal-align-left",
     "format-horizontal-align-right",
     "help-circle",
-    "magnify",
     "magnify-minus-outline",
     "magnify-plus-outline",
     "menu",

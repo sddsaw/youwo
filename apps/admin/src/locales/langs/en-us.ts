@@ -312,15 +312,6 @@ const local: Schema = {
     'demo_rich-editor': 'Rich Editor',
     'desktop': 'Desktop Console',
     'sub-window': 'Sub Window',
-    'monitor': 'System Monitor',
-    'monitor_data': 'Data Monitor',
-    'monitor_online': 'Online Users',
-    'system': 'System Manage',
-    'system_announcement': 'Announcement',
-    'system_dict': 'Dictionary',
-    'system_menu': 'Menu Manage',
-    'system_role': 'Role Manage',
-    'system_user': 'User Manage',
   },
   page: {
     login: {

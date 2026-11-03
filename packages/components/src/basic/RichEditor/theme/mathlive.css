@@ -1,0 +1,35 @@
+
+.ck-mathlive-panelhook {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	z-index: 9999;
+}
+
+.ck-mathlive-panelhook ~ #mathlive-suggestion-popover {
+	z-index: 1000;
+}
+
+.ck-math-field {
+	position: relative;
+	display: inline-block;
+}
+
+.ck-math-field::after {
+	content: '';
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+/* stylelint-disable-next-line selector-type-no-unknown */
+.ck-math-field math-field {
+	display: inline-block;
+	padding: 0;
+	border: none;
+	color: inherit;
+	background: inherit;
+}

@@ -22,7 +22,8 @@
     "vue": "catalog:"
   },
   "dependencies": {
-    "@sa/utils": "workspace:*"
+    "@sa/utils": "workspace:*",
+    "mathlive": "catalog:"
   },
   "devDependencies": {
     "vue": "catalog:"

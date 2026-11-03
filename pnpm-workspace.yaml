@@ -11,6 +11,9 @@ packages:
   - 'internal/*'
 linkWorkspacePackages: true
 
+patchedDependencies:
+  mathlive@0.106.0: patches/mathlive@0.106.0.patch
+
 catalog:
   '@better-scroll/core': 2.5.1
   '@ckeditor/ckeditor5-vue': 8.1.1
@@ -26,6 +29,7 @@ catalog:
   echarts: 6.0.0
   json5: 2.2.3
   kolorist: 1.8.0
+  mathlive: ^0.106.0
   naive-ui: 2.44.1
   nprogress: 0.2.0
   pinia: 3.0.4

@@ -20,7 +20,10 @@ export default class FormulaEntry extends Plugin {
         tooltip: true,
       })
 
+      // Clicking prints a log
       this.listenTo(buttonView, 'execute', () => {
+        // eslint-disable-next-line no-console
+        console.log('[FormulaEntry] Formula button clicked!')
         editor.editing.view.focus()
       })
 

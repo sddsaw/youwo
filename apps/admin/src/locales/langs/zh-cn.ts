@@ -308,15 +308,6 @@ const local: Schema = {
     'demo_rich-editor': '富文本编辑器',
     'desktop': '桌面控制台',
     'sub-window': '子窗口通信',
-    'monitor': '系统监控',
-    'monitor_data': '数据监控',
-    'monitor_online': '在线用户',
-    'system': '系统管理',
-    'system_announcement': '系统公告',
-    'system_dict': '字典管理',
-    'system_menu': '菜单管理',
-    'system_role': '角色管理',
-    'system_user': '用户管理',
   },
   page: {
     login: {

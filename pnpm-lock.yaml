@@ -48,6 +48,9 @@ catalogs:
     kolorist:
       specifier: 1.8.0
       version: 1.8.0
+    mathlive:
+      specifier: ^0.106.0
+      version: 0.106.0
     naive-ui:
       specifier: 2.44.1
       version: 2.44.1
@@ -87,6 +90,11 @@ catalogs:
     vue-router:
       specifier: 5.0.7
       version: 5.0.7
+
+patchedDependencies:
+  mathlive@0.106.0:
+    hash: aecb919fb7219ad068649f8c60a8d7ae989f729fc61be14bde60c3b0d4430a89
+    path: patches/mathlive@0.106.0.patch
 
 importers:
 
@@ -428,6 +436,9 @@ importers:
       cropperjs:
         specifier: ^1.6.2
         version: 1.6.2
+      mathlive:
+        specifier: 'catalog:'
+        version: 0.106.0(patch_hash=aecb919fb7219ad068649f8c60a8d7ae989f729fc61be14bde60c3b0d4430a89)
       vue-draggable-plus:
         specifier: 'catalog:'
         version: 0.6.1(@types/sortablejs@1.15.9)
@@ -456,6 +467,9 @@ importers:
       '@sa/utils':
         specifier: workspace:*
         version: link:../utils
+      mathlive:
+        specifier: 'catalog:'
+        version: 0.106.0(patch_hash=aecb919fb7219ad068649f8c60a8d7ae989f729fc61be14bde60c3b0d4430a89)
     devDependencies:
       vue:
         specifier: 'catalog:'
@@ -1093,6 +1107,10 @@ packages:
         optional: true
       conventional-commits-parser:
         optional: true
+
+  '@cortex-js/compute-engine@0.28.0':
+    resolution: {integrity: sha512-kGs74P4KVNLSqu+iVhLSAvodScZdVGoZI2kOsUjnBEFCFjlPJ1Nj5TpBz/4nwPT+viguB+g7VseXsmcxWRx23Q==}
+    engines: {node: '>=21.7.3', npm: '>=10.5.0'}
 
   '@css-render/plugin-bem@0.15.14':
     resolution: {integrity: sha512-QK513CJ7yEQxm/P3EwsI+d+ha8kSOcjGvD6SevM41neEMxdULE+18iuQK6tEChAWMOQNQPLG/Rw3Khb69r5neg==}
@@ -2744,6 +2762,10 @@ packages:
   compare-func@2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
 
+  complex-esm@2.1.1-esm1:
+    resolution: {integrity: sha512-IShBEWHILB9s7MnfyevqNGxV0A1cfcSnewL/4uPFiSxkcQL4Mm3FxJ0pXMtCXuWLjYz3lRRyk6OfkeDZcjD6nw==}
+    engines: {node: '>=16.14.2', npm: '>=8.5.0'}
+
   component-emitter@1.3.1:
     resolution: {integrity: sha512-T0+barUSQRTUQASh8bx02dl+DhF54GtIDY13Y3m9oWTklKbb3Wv974meRpeZ3lp1JpLVECWWNHC4vaG2XHXouQ==}
 
@@ -2908,6 +2930,9 @@ packages:
     peerDependenciesMeta:
       supports-color:
         optional: true
+
+  decimal.js@10.6.0:
+    resolution: {integrity: sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==}
 
   decode-named-character-reference@1.3.0:
     resolution: {integrity: sha512-GtpQYB283KrPp6nRw50q3U9/VfOutZOe103qlN7BPP6Ad27xYnOIWv4lPzo8HCAL+mMZofJ9KEy30fq6MfaK6Q==}
@@ -4401,6 +4426,9 @@ packages:
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
+
+  mathlive@0.106.0:
+    resolution: {integrity: sha512-TfoX+A9SoHlWzJkcpMadN6ZrUpK7okGLAf4qXi8N7L6zBj5dvQICwGuCC5PP8oIU5ffxGeGQDoZqAj7UC155JA==}
 
   mdast-util-find-and-replace@3.0.2:
     resolution: {integrity: sha512-Tmd1Vg/m3Xz43afeNxDIhWRtFZgM2VLyaf4vSTYwudTyeuTneoL3qtWMA5jeLyz/O1vDJmmV4QuScFCA2tBPwg==}
@@ -7168,6 +7196,11 @@ snapshots:
     optionalDependencies:
       conventional-commits-parser: 6.4.0
 
+  '@cortex-js/compute-engine@0.28.0':
+    dependencies:
+      complex-esm: 2.1.1-esm1
+      decimal.js: 10.6.0
+
   '@css-render/plugin-bem@0.15.14(css-render@0.15.14)':
     dependencies:
       css-render: 0.15.14
@@ -8945,6 +8978,8 @@ snapshots:
       array-ify: 1.0.0
       dot-prop: 5.3.0
 
+  complex-esm@2.1.1-esm1: {}
+
   component-emitter@1.3.1: {}
 
   concat-map@0.0.1: {}
@@ -9108,6 +9143,8 @@ snapshots:
   debug@4.4.3:
     dependencies:
       ms: 2.1.3
+
+  decimal.js@10.6.0: {}
 
   decode-named-character-reference@1.3.0:
     dependencies:
@@ -10769,6 +10806,10 @@ snapshots:
   markdown-table@3.0.4: {}
 
   math-intrinsics@1.1.0: {}
+
+  mathlive@0.106.0(patch_hash=aecb919fb7219ad068649f8c60a8d7ae989f729fc61be14bde60c3b0d4430a89):
+    dependencies:
+      '@cortex-js/compute-engine': 0.28.0
 
   mdast-util-find-and-replace@3.0.2:
     dependencies:
