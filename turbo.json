@@ -1,0 +1,34 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalDependencies": [
+    "pnpm-lock.yaml",
+    "**/tsconfig*.json",
+    ".env.*"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "package.json", "tsconfig.json", "vite.config.ts", "uno.config.ts", "index.html", "public/**"],
+      "outputs": ["dist/**", "../../dist/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build", "^typecheck"],
+      "inputs": ["**/*.{ts,tsx,vue}", "package.json", "tsconfig.json"],
+      "outputs": []
+    },
+    "lint": {
+      "dependsOn": [],
+      "inputs": ["**/*.{js,jsx,ts,tsx,vue,json}", "package.json", "tsconfig.json", "eslint.config.js"],
+      "outputs": []
+    },
+    "lint:fix": {
+      "cache": false
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

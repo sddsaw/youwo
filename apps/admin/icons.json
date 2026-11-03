@@ -1,0 +1,90 @@
+{
+  "ant-design": [
+    "apartment-outlined",
+    "bar-chart-outlined",
+    "close-outlined",
+    "column-width-outlined",
+    "database-outlined",
+    "line-chart-outlined",
+    "line-outlined",
+    "money-collect-outlined",
+    "monitor-outlined",
+    "notification-outlined",
+    "reload-outlined",
+    "setting-outlined",
+    "team-outlined",
+    "trademark-circle-outlined",
+    "user-outlined"
+  ],
+  "carbon": [
+    "document-download"
+  ],
+  "fluent": [
+    "alert-24-regular",
+    "calendar-clock-24-filled",
+    "clipboard-task-24-filled",
+    "code-24-filled",
+    "info-24-filled",
+    "person-chat-24-filled",
+    "person-feedback-24-filled",
+    "ribbon-24-filled",
+    "sparkle-24-filled",
+    "warning-24-filled"
+  ],
+  "gridicons": [
+    "fullscreen",
+    "fullscreen-exit"
+  ],
+  "heroicons": [
+    "language"
+  ],
+  "ic": [
+    "round-delete",
+    "round-plus",
+    "round-refresh",
+    "round-search"
+  ],
+  "line-md": [
+    "menu-fold-left",
+    "menu-fold-right"
+  ],
+  "majesticons": [
+    "color-swatch-line"
+  ],
+  "material-symbols": [
+    "hdr-auto",
+    "nightlight-rounded",
+    "sunny"
+  ],
+  "mdi": [
+    "cloud-upload",
+    "drag",
+    "flip-horizontal",
+    "flip-vertical",
+    "format-horizontal-align-left",
+    "format-horizontal-align-right",
+    "help-circle",
+    "magnify",
+    "magnify-minus-outline",
+    "magnify-plus-outline",
+    "menu",
+    "pin",
+    "pin-off",
+    "pin-off-outline",
+    "pin-outline",
+    "refresh",
+    "restore",
+    "rotate-left",
+    "rotate-right"
+  ],
+  "octicon": [
+    "pin-16",
+    "pin-slash-16"
+  ],
+  "ph": [
+    "caret-double-left-bold",
+    "caret-double-right-bold",
+    "sign-out",
+    "user-circle"
+  ]
+}

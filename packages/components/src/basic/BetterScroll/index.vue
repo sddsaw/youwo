@@ -1,0 +1,58 @@
+<script setup lang="ts">
+import type { Options } from '@better-scroll/core'
+import BScroll from '@better-scroll/core'
+import { useElementSize } from '@vueuse/core'
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
+
+defineOptions({ name: 'BetterScroll' })
+
+const props = defineProps<Props>()
+
+interface Props {
+  /**
+   * BetterScroll options
+   *
+   * @link https://better-scroll.github.io/docs/zh-CN/guide/base-scroll-options.html
+   */
+  options: Options
+}
+
+const bsWrapper = ref<HTMLElement>()
+const bsContent = ref<HTMLElement>()
+const { width: wrapWidth } = useElementSize(bsWrapper)
+const { width, height } = useElementSize(bsContent)
+
+const instance = shallowRef<BScroll>()
+const isScrollY = computed(() => Boolean(props.options.scrollY))
+
+function initBetterScroll() {
+  if (!bsWrapper.value)
+    return
+  instance.value = new BScroll(bsWrapper.value, props.options)
+}
+
+// refresh BS when scroll element size changed
+watch([() => wrapWidth.value, () => width.value, () => height.value], () => {
+  instance.value?.refresh()
+})
+
+onMounted(() => {
+  initBetterScroll()
+})
+
+onBeforeUnmount(() => {
+  instance.value?.destroy()
+})
+
+defineExpose({ instance })
+</script>
+
+<template>
+  <div ref="bsWrapper" class="h-full text-left">
+    <div ref="bsContent" class="inline-block" :class="{ 'h-full': !isScrollY }">
+      <slot />
+    </div>
+  </div>
+</template>
+
+<style scoped></style>

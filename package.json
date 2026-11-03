@@ -1,0 +1,90 @@
+{
+  "name": "soybean-admin",
+  "type": "module",
+  "version": "2.3.1",
+  "packageManager": "pnpm@10.15.1",
+  "description": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0",
+    "pnpm": ">=10.5.0"
+  },
+  "scripts": {
+    "build": "pnpm check-icons && pnpm update-icons && turbo run build",
+    "build:admin": "pnpm check-icons && pnpm update-icons && turbo run build --filter=@apps/admin",
+    "cleanup": "sa cleanup",
+    "commit": "git-cz",
+    "dev": "pnpm update-icons && turbo run dev --filter=@apps/admin",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "simple-git-hooks",
+    "preview": "pnpm --filter @apps/admin preview",
+    "release": "sa release",
+    "typecheck": "turbo run typecheck",
+    "check-icons": "sa check-icons",
+    "update-icons": "sa update-icons",
+    "update-pkg": "sa update-pkg"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
+    "@elegant-router/vue": "0.3.8",
+    "@iconify/json": "2.2.472",
+    "@internal/eslint-config": "workspace:*",
+    "@sa/axios": "workspace:*",
+    "@sa/color": "workspace:*",
+    "@sa/hooks": "workspace:*",
+    "@sa/materials": "workspace:*",
+    "@sa/scripts": "workspace:*",
+    "@sa/uno-preset": "workspace:*",
+    "@sa/utils": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/nprogress": "0.2.3",
+    "@unocss/eslint-plugin": "^66.6.8",
+    "@vitejs/plugin-vue": "6.0.6",
+    "@vitejs/plugin-vue-jsx": "5.1.5",
+    "@vueuse/core": "catalog:",
+    "commitizen": "^4.3.1",
+    "consola": "catalog:",
+    "cz-customizable": "^7.5.4",
+    "eslint": "10.3.0",
+    "kolorist": "catalog:",
+    "lint-staged": "^17.0.7",
+    "only-allow": "^1.2.2",
+    "rollup-plugin-visualizer": "^7.0.1",
+    "sass": "1.99.0",
+    "simple-git-hooks": "2.13.1",
+    "tsx": "4.21.0",
+    "turbo": "^2.9.18",
+    "typescript": "catalog:",
+    "unocss": "catalog:",
+    "unplugin-icons": "23.0.1",
+    "unplugin-vue-components": "32.0.0",
+    "vite": "catalog:",
+    "vite-plugin-progress": "0.0.7",
+    "vite-plugin-svg-icons": "2.0.1",
+    "vite-plugin-vue-devtools": "8.1.2",
+    "vite-plugin-vue-transition-root-validator": "^0.1.0",
+    "vue": "catalog:",
+    "vue-tsc": "3.2.8"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "pnpm commitlint --edit $1 ",
+    "pre-commit": "pnpm lint-staged",
+    "pre-push": "pnpm typecheck"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "eslint --fix --quiet"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": ".cz-config.cjs"
+    }
+  }
+}

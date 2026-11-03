@@ -1,0 +1,36 @@
+{
+  "name": "@sa/scripts",
+  "type": "module",
+  "version": "2.3.1",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*"
+      ]
+    }
+  },
+  "bin": {
+    "sa": "./bin.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "devDependencies": {
+    "@iconify/utils": "^2.1.24",
+    "bumpp": "11.1.0",
+    "c12": "3.3.4",
+    "cac": "7.0.0",
+    "changelogen": "0.5.7",
+    "consola": "catalog:",
+    "execa": "9.6.1",
+    "kolorist": "catalog:",
+    "npm-check-updates": "22.2.0",
+    "picomatch": "4.0.4",
+    "rimraf": "6.1.3"
+  }
+}

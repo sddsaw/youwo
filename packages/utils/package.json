@@ -1,0 +1,40 @@
+{
+  "name": "@sa/utils",
+  "type": "module",
+  "version": "2.3.1",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./crypto": "./src/business/crypto.ts",
+    "./storage": "./src/business/storage.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*"
+      ]
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "peerDependencies": {
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "dependencies": {
+    "axios": "1.16.0",
+    "colord": "catalog:",
+    "crypto-js": "4.2.0",
+    "klona": "2.0.6",
+    "localforage": "1.10.0",
+    "nanoid": "5.1.11"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "4.2.2",
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  }
+}

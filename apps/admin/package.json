@@ -1,0 +1,46 @@
+{
+  "name": "@apps/admin",
+  "type": "module",
+  "version": "2.3.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite --mode test",
+    "dev:prod": "vite --mode prod",
+    "build": "vite build --mode prod",
+    "build:test": "vite build --mode test",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit --skipLibCheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "dependencies": {
+    "@better-scroll/core": "catalog:",
+    "@iconify/vue": "catalog:",
+    "@sa/axios": "workspace:*",
+    "@sa/color": "workspace:*",
+    "@sa/components": "workspace:*",
+    "@sa/directives": "workspace:*",
+    "@sa/hooks": "workspace:*",
+    "@sa/materials": "workspace:*",
+    "@sa/utils": "workspace:*",
+
+    "clipboard": "catalog:",
+    "dayjs": "catalog:",
+    "defu": "catalog:",
+    "echarts": "catalog:",
+    "json5": "catalog:",
+    "naive-ui": "catalog:",
+    "nprogress": "catalog:",
+    "pinia": "catalog:",
+    "tailwind-merge": "catalog:",
+    "vue": "catalog:",
+    "vue-draggable-plus": "catalog:",
+    "vue-i18n": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@internal/eslint-config": "workspace:*",
+    "@internal/vite-config": "workspace:*",
+    "sass": "catalog:"
+  }
+}

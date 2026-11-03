@@ -1,0 +1,11 @@
+{
+  "name": "@internal/tsconfig",
+  "version": "2.3.1",
+  "private": true,
+  "description": "TypeScript configuration for Soybean Admin",
+  "files": [
+    "base.json",
+    "lib.json",
+    "vue.json"
+  ]
+}

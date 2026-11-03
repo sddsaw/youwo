@@ -1,0 +1,37 @@
+{
+  "name": "@sa/hooks",
+  "type": "module",
+  "version": "2.3.1",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*"
+      ]
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "peerDependencies": {
+    "@vueuse/core": "catalog:",
+    "echarts": "catalog:",
+    "naive-ui": "catalog:",
+    "vue": "catalog:"
+  },
+  "dependencies": {
+    "@sa/axios": "workspace:*",
+    "@sa/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@vueuse/core": "catalog:",
+    "echarts": "catalog:",
+    "naive-ui": "catalog:",
+    "vue": "catalog:"
+  }
+}

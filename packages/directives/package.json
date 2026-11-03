@@ -1,0 +1,30 @@
+{
+  "name": "@sa/directives",
+  "type": "module",
+  "version": "2.3.1",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*"
+      ]
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "peerDependencies": {
+    "vue": "catalog:"
+  },
+  "dependencies": {
+    "@sa/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "vue": "catalog:"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@sa/uno-preset",
+  "type": "module",
+  "version": "2.3.1",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*"
+      ]
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "peerDependencies": {
+    "@unocss/core": "^66.0.0",
+    "@unocss/preset-mini": "^66.0.0"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "@sa/components",
+  "type": "module",
+  "version": "2.3.1",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./src/*": "./src/*",
+    "./*": "./src/*"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*"
+      ]
+    }
+  },
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit --skipLibCheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "peerDependencies": {
+    "@better-scroll/core": "catalog:",
+    "@iconify/vue": "catalog:",
+    "@vueuse/core": "catalog:",
+    "naive-ui": "catalog:",
+    "tailwind-merge": "catalog:",
+    "vue": "catalog:",
+    "vue-draggable-plus": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-vue": "catalog:",
+    "@sa/color": "workspace:*",
+    "@sa/hooks": "workspace:*",
+    "ckeditor5": "catalog:",
+    "cropperjs": "^1.6.2"
+  },
+  "devDependencies": {
+    "@iconify/vue": "catalog:",
+    "@vueuse/core": "catalog:",
+    "naive-ui": "catalog:",
+    "tailwind-merge": "catalog:",
+    "vue": "catalog:"
+  }
+}

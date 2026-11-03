@@ -1,0 +1,14 @@
+{
+  "extends": "../../internal/tsconfig/vue.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "~/*": ["./*"],
+      "@sa/components/*": ["../../packages/components/src/*"],
+      "@sa/components": ["../../packages/components/src/index.ts"]
+    },
+    "types": ["vite/client", "node", "unplugin-icons/types/vue", "naive-ui/volar"]
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.vue"],
+  "exclude": ["node_modules", "dist"]
+}
