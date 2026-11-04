@@ -1,5 +1,10 @@
 {
   "extends": "../../internal/tsconfig/base.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["../../apps/admin/src/*"]
+    }
+  },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

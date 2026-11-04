@@ -37,16 +37,23 @@
     "color-swatch-line"
   ],
   "material-symbols": [
-    "add",
+    "arrow-back-rounded",
+    "article-outline",
     "chevron-right-rounded",
     "description-outline",
+    "domain-verification-outline",
+    "download-rounded",
     "folder-open-outline",
     "folder-zip-outline-rounded",
     "hdr-auto",
-    "list-alt-outline-rounded",
+    "info-outline-rounded",
+    "menu-book-outline-rounded",
     "nightlight-rounded",
+    "person-outline",
     "picture-as-pdf-outline-rounded",
+    "schedule-outline",
     "search-rounded",
+    "space-dashboard-outline-rounded",
     "sunny"
   ],
   "mdi": [

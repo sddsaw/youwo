@@ -142,9 +142,10 @@ export default class PanelView {
   }
 
   public setMathfieldElementConfig(): void {
-    if (typeof window.MathfieldElement !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof window.MathfieldElement !== 'undefined') {
       // Disabled sounds of mathField.
       window.MathfieldElement.soundsDirectory = null
+      window.MathfieldElement.fontsDirectory = '/fonts/'
     }
   }
 }

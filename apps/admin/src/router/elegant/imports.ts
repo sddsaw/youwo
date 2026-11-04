@@ -20,8 +20,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   500: () => import("@/views/_builtin/500/index.vue"),
   "iframe-page": () => import("@/views/_builtin/iframe-page/[url].vue"),
   login: () => import("@/views/_builtin/login/index.vue"),
-  demo_from: () => import("@/views/demo/from/index.vue"),
-  "demo_infinite-scroll": () => import("@/views/demo/infinite-scroll/index.vue"),
-  "demo_rich-editor": () => import("@/views/demo/rich-editor/index.vue"),
-  home: () => import("@/views/home/index.vue"),
+  workbench_approval: () => import("@/views/workbench/approval/index.vue"),
+  "workbench_knowledge-detail": () => import("@/views/workbench/knowledge-detail/index.vue"),
+  workbench_knowledge: () => import("@/views/workbench/knowledge/index.vue"),
 };

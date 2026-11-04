@@ -3,7 +3,7 @@ import type { CreateViteConfigOptions, ViteEnv } from './types.js'
 import path from 'node:path'
 import process from 'node:process'
 import { defu } from 'defu'
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig, loadEnv, searchForWorkspaceRoot } from 'vite'
 import { createViteProxy, getBuildTime } from './config/index.js'
 import { setupVitePlugins } from './plugins.js'
 
@@ -72,7 +72,7 @@ export function createViteConfig(options?: CreateViteConfigOptions) {
         open: true,
         proxy: createViteProxy(viteEnv, enableProxy),
         fs: {
-          allow: ['..'],
+          allow: [searchForWorkspaceRoot(root)],
         },
       },
       preview: {

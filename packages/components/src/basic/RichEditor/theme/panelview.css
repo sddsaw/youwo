@@ -1,3 +1,7 @@
+:root {
+	--ML__static-fonts: true;
+}
+
 /* Hide the virtual keyboard toggle */
 .ck-mathlive-panel math-field::part(virtual-keyboard-toggle) {
 	display: none;
@@ -95,6 +99,16 @@
 .ck-mathlive-panel-input math-field {
 	width: calc(100% - 10px);
 	min-height: 80px;
+	background-color: #ffffff;
+	border: 1px solid #dcdfe6;
+	border-radius: 4px;
+	padding: 4px 8px;
+	box-sizing: border-box;
+	outline: none;
+}
+
+.ck-mathlive-panel-input math-field:focus-within {
+	border-color: #0c75d8;
 }
 
 .ck-mathlive-panel-submit {
@@ -329,4 +343,116 @@
 .ck-mathlive-formula-tex.chemistry:nth-child(1) {
 	position: relative;
 	z-index: 1;
+}
+
+/* ========================================================
+   MathLive Panel Dark Mode Styles (暗黑模式适配)
+   ======================================================== */
+html.dark .ck-mathlive-panel {
+	background-color: #1e1e22;
+	color: #e0e0e0;
+	border: 1px solid #383a40;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+html.dark .ck-mathlive-panel-header {
+	background-color: #282a30;
+	border-bottom: 1px solid #383a40;
+}
+
+html.dark .ck-mathlive-panel-header-label {
+	color: #e0e0e0;
+}
+
+html.dark .ck-mathlive-panel-header-close::before,
+html.dark .ck-mathlive-panel-header-close::after {
+	background-color: #b0b4ba;
+}
+
+html.dark .ck-mathlive-panel-formula {
+	background-color: #16171a;
+	border: 1px solid #2e3036;
+}
+
+html.dark .ck-mathlive-formula-tab {
+	color: #a0a4ad;
+}
+
+html.dark .ck-mathlive-formula-tab:hover {
+	color: rgb(var(--primary-color, 100 108 255));
+}
+
+html.dark .ck-mathlive-formula-tab.active {
+	color: rgb(var(--primary-color, 100 108 255));
+	border-color: rgb(var(--primary-color, 100 108 255));
+}
+
+html.dark .ck-mathlive-formula-tex {
+	background-color: #26282e;
+	border: 1px solid #363840;
+	color: #e0e0e0;
+}
+
+html.dark .ck-mathlive-formula-tex:hover {
+	background-color: #33363e;
+	border-color: #4f535e;
+}
+
+html.dark .ck-mathlive-formula-tex:active {
+	background-color: rgb(var(--primary-color, 100 108 255));
+	border-color: rgb(var(--primary-color, 100 108 255));
+	color: #ffffff;
+}
+
+html.dark .ck-mathlive-panel-input math-field {
+	background-color: #16171a;
+	color: #e0e0e0;
+	border: 1px solid #383a40;
+	--color: #e0e0e0;
+	--primary: rgb(var(--primary-color, 100 108 255));
+	--caret-color: rgb(var(--primary-color, 100 108 255));
+	--selection-background-color: rgba(100, 108, 255, 0.3);
+}
+
+html.dark .ck-mathlive-panel-input math-field:focus-within {
+	border-color: rgb(var(--primary-color, 100 108 255));
+}
+
+html.dark .ck-mathlive-panel-submit button.ck-mathlive-panel-submit-confirm {
+	background-color: rgb(var(--primary-color, 100 108 255));
+	color: #ffffff;
+}
+
+html.dark .ck-mathlive-panel-submit button.ck-mathlive-panel-submit-confirm:hover {
+	opacity: 0.9;
+}
+
+html.dark .ck-mathlive-panel-submit button.ck-mathlive-panel-submit-cancel {
+	background-color: #33363d;
+	color: #b0b4ba;
+}
+
+html.dark .ck-mathlive-panel-submit button.ck-mathlive-panel-submit-cancel:hover {
+	background-color: #40444d;
+	color: #ffffff;
+}
+
+html.dark .ck-mathlive-formula-content::-webkit-scrollbar {
+	width: 6px;
+}
+
+html.dark .ck-mathlive-formula-content::-webkit-scrollbar-thumb {
+	background-color: #383a40;
+	border-radius: 3px;
+}
+
+html.dark .ck-mathlive-formula-content::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+html.dark .ck-mathlive-formula-content
+.ck-mathlive-formula-row:nth-child(1)
+.ck-mathlive-formula-tex.labelSymbol-operator:nth-child(n+1):nth-child(-n+12) .ck-mathlive-latex-markup::after,
+html.dark .ck-mathlive-formula-tex.chemistry:nth-child(1) .ck-mathlive-latex-markup::after {
+	background-color: hsl(212, 40%, 30%);
 }

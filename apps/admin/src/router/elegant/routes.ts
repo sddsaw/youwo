@@ -12,6 +12,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.403',
     meta: {
       title: '无权限',
+      i18nKey: 'route.403',
       constant: true,
       hideInMenu: true
     }
@@ -22,6 +23,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.404',
     meta: {
       title: '页面不存在',
+      i18nKey: 'route.404',
       constant: true,
       hideInMenu: true
     }
@@ -32,53 +34,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.500',
     meta: {
       title: '服务器错误',
+      i18nKey: 'route.500',
       constant: true,
       hideInMenu: true
-    }
-  },
-  {
-    name: 'demo',
-    path: '/demo',
-    component: 'layout.base',
-    meta: {
-      title: '演示页面',
-      order: 2,
-      hideInMenu:true
-    },
-    children: [
-      {
-        name: 'demo_from',
-        path: '/demo/from',
-        component: 'view.demo_from',
-        meta: {
-          title: '表单封装'
-        }
-      },
-      {
-        name: 'demo_infinite-scroll',
-        path: '/demo/infinite-scroll',
-        component: 'view.demo_infinite-scroll',
-        meta: {
-          title: '滚动加载封装'
-        }
-      },
-      {
-        name: 'demo_rich-editor',
-        path: '/demo/rich-editor',
-        component: 'view.demo_rich-editor',
-        meta: {
-          title: '富文本封装'
-        }
-      }
-    ]
-  },
-  {
-    name: 'home',
-    path: '/home',
-    component: 'layout.base$view.home',
-    meta: {
-      title: '知识文档',
-      order: 1
     }
   },
   {
@@ -88,19 +46,68 @@ export const generatedRoutes: GeneratedRoute[] = [
     props: true,
     meta: {
       title: '外链页面',
+      i18nKey: 'route.iframe-page',
       constant: true,
       hideInMenu: true
     }
   },
   {
     name: 'login',
-    path: '/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?',
+    path: '/login/:module(pwd-login|code-login)?',
     component: 'layout.blank$view.login',
     props: true,
     meta: {
       title: '登录',
+      i18nKey: 'route.login',
       constant: true,
       hideInMenu: true
     }
+  },
+  {
+    name: 'workbench',
+    path: '/workbench',
+    component: 'layout.base',
+    meta: {
+      title: '工作台',
+      i18nKey: 'route.workbench',
+      icon: 'material-symbols:space-dashboard-outline-rounded',
+      order: 2
+    },
+    children: [
+      {
+        name: 'workbench_approval',
+        path: '/workbench/approval',
+        component: 'view.workbench_approval',
+        meta: {
+          title: '审批中心',
+          i18nKey: 'route.workbench_approval',
+          icon: 'material-symbols:approval-delegation-outline-rounded',
+          order: 2
+        }
+      },
+      {
+        name: 'workbench_knowledge',
+        path: '/workbench/knowledge',
+        component: 'view.workbench_knowledge',
+        meta: {
+          title: '知识点',
+          i18nKey: 'route.workbench_knowledge',
+          icon: 'material-symbols:menu-book-outline-rounded',
+          order: 1
+        }
+      },
+      {
+        name: 'workbench_knowledge-detail',
+        path: '/workbench/knowledge-detail',
+        component: 'view.workbench_knowledge-detail',
+        meta: {
+          title: '知识点详情',
+          i18nKey: 'route.workbench_knowledge-detail',
+          icon: 'material-symbols:article-outline',
+          hideInMenu: true,
+          activeMenu: 'workbench_knowledge'
+        }
+      }
+    ]
   }
 ];

@@ -118,4 +118,8 @@ defineExpose({
   </NForm>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.n-form-item--left-labelled .n-form-item-label) {
+  white-space: nowrap;
+}
+</style>

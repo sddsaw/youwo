@@ -20,13 +20,12 @@ declare module "@elegant-router/types" {
     "403": "/403";
     "404": "/404";
     "500": "/500";
-    "demo": "/demo";
-    "demo_from": "/demo/from";
-    "demo_infinite-scroll": "/demo/infinite-scroll";
-    "demo_rich-editor": "/demo/rich-editor";
-    "home": "/home";
     "iframe-page": "/iframe-page/:url";
-    "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
+    "login": "/login/:module(pwd-login|code-login)?";
+    "workbench": "/workbench";
+    "workbench_approval": "/workbench/approval";
+    "workbench_knowledge": "/workbench/knowledge";
+    "workbench_knowledge-detail": "/workbench/knowledge-detail";
   };
 
   /**
@@ -61,10 +60,9 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
-    | "demo"
-    | "home"
     | "iframe-page"
     | "login"
+    | "workbench"
   >;
 
   /**
@@ -86,10 +84,9 @@ declare module "@elegant-router/types" {
     | "500"
     | "iframe-page"
     | "login"
-    | "demo_from"
-    | "demo_infinite-scroll"
-    | "demo_rich-editor"
-    | "home"
+    | "workbench_approval"
+    | "workbench_knowledge-detail"
+    | "workbench_knowledge"
   >;
 
   /**

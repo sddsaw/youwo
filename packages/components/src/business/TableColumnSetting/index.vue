@@ -3,6 +3,7 @@ import type { TableColumnCheck } from '@sa/hooks'
 import { NScrollbar } from 'naive-ui'
 import { computed } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
+import { $t } from '@/locales'
 import ButtonIcon from '../../basic/ButtonIcon/index.vue'
 import SvgIcon from '../../basic/SvgIcon/index.vue'
 
@@ -72,7 +73,7 @@ function toggleSelectAll(checked: boolean) {
         <template #icon>
           <SvgIcon icon="ant-design:setting-outlined" class="text-icon" />
         </template>
-        列设置
+        {{ $t('common.columnSetting') }}
       </NButton>
     </template>
     <div>
@@ -84,7 +85,7 @@ function toggleSelectAll(checked: boolean) {
           class="flex-1"
           @update:checked="toggleSelectAll"
         >
-          全选
+          {{ $t('common.selectAll') }}
         </NCheckbox>
       </div>
       <NDivider class="!my-4px" />

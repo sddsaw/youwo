@@ -15,9 +15,6 @@ export const themeSchemaOptions = transformRecordToOption(themeSchemaRecord)
 export const loginModuleRecord: Record<UnionKey.LoginModule, string> = {
   'pwd-login': '密码登录',
   'code-login': '验证码登录',
-  'register': '注册账号',
-  'reset-pwd': '重置密码',
-  'bind-wechat': '绑定微信',
 }
 
 export const themeLayoutModeRecord: Record<UnionKey.ThemeLayoutMode, string> = {

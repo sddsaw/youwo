@@ -166,13 +166,12 @@ const routeMap: RouteMap = {
   "403": "/403",
   "404": "/404",
   "500": "/500",
-  "demo": "/demo",
-  "demo_from": "/demo/from",
-  "demo_infinite-scroll": "/demo/infinite-scroll",
-  "demo_rich-editor": "/demo/rich-editor",
-  "home": "/home",
   "iframe-page": "/iframe-page/:url",
-  "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?"
+  "login": "/login/:module(pwd-login|code-login)?",
+  "workbench": "/workbench",
+  "workbench_approval": "/workbench/approval",
+  "workbench_knowledge": "/workbench/knowledge",
+  "workbench_knowledge-detail": "/workbench/knowledge-detail"
 };
 
 /**

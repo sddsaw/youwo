@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumnCheck } from '@sa/hooks'
+import { $t } from '@/locales'
 import SvgIcon from '../../basic/SvgIcon/index.vue'
 import TableColumnSetting from '../TableColumnSetting/index.vue'
 
@@ -50,7 +51,7 @@ function refresh() {
         <template #icon>
           <SvgIcon icon="ic:round-plus" class="text-icon" />
         </template>
-        新增
+        {{ $t('common.add') }}
       </NButton>
       <NPopconfirm @positive-click="batchDelete">
         <template #trigger>
@@ -58,17 +59,17 @@ function refresh() {
             <template #icon>
               <SvgIcon icon="ic:round-delete" class="text-icon" />
             </template>
-            批量删除
+            {{ $t('common.batchDelete') }}
           </NButton>
         </template>
-        确认删除吗？
+        {{ $t('common.confirmDelete') }}
       </NPopconfirm>
     </slot>
     <NButton size="small" @click="refresh">
       <template #icon>
         <SvgIcon icon="mdi:refresh" class="text-icon" :class="{ 'animate-spin': loading }" />
       </template>
-      刷新
+      {{ $t('common.refresh') }}
     </NButton>
     <TableColumnSetting v-model:columns="columns" />
     <slot name="suffix" />

@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useApprovalStore } from '@/store/modules/approval'
 
 defineOptions({
   name: 'NotificationBell',
 })
+
+const router = useRouter()
+const approvalStore = useApprovalStore()
 
 interface NotificationItem {
   id: number
@@ -76,35 +81,25 @@ const messages = ref<NotificationItem[]>([
   },
 ])
 
-const todos = ref<NotificationItem[]>([
-  {
-    id: 7,
-    title: '考勤审批',
-    description: '待审批：研发部-小李的 6 月 22 日补卡申请',
-    time: '5分钟前',
-    icon: 'fluent:calendar-clock-24-filled',
-    color: '#f97316', // orange
-    read: false,
-  },
-  {
-    id: 8,
-    title: '代码合并申请',
-    description: '待处理：feat-notification 分支合并至 main 分支的 Merge Request',
-    time: '4小时前',
-    icon: 'fluent:code-24-filled',
-    color: '#64748b', // slate
-    read: false,
-  },
-  {
-    id: 9,
-    title: '季度考核确认',
-    description: '待完成：请于本周五前确认并提交 2026 年 Q2 个人考核表',
-    time: '2天前',
+const priorityColorMap: Record<Api.Approval.Priority, string> = {
+  normal: '#3b82f6', // blue
+  urgent: '#f97316', // orange
+  critical: '#ef4444', // red
+}
+
+/** 待办审批流数据接入 ApprovalStore */
+const todos = computed(() => {
+  return approvalStore.pendingList.map(item => ({
+    id: item.id,
+    title: item.title,
+    description: `${item.applicant} (${item.dept}) 申请 · ${item.reason}`,
+    time: item.applyTime.slice(5),
     icon: 'fluent:clipboard-task-24-filled',
-    color: '#06b6d4', // cyan
-    read: true,
-  },
-])
+    color: priorityColorMap[item.priority] || '#f97316',
+    read: false,
+    raw: item,
+  }))
+})
 
 // Tab Management
 type TabKey = 'notification' | 'message' | 'todo'
@@ -113,7 +108,7 @@ const activeTab = ref<TabKey>('notification')
 // Counts
 const unreadNotificationCount = computed(() => notifications.value.filter(item => !item.read).length)
 const unreadMessageCount = computed(() => messages.value.filter(item => !item.read).length)
-const unreadTodoCount = computed(() => todos.value.filter(item => !item.read).length)
+const unreadTodoCount = computed(() => approvalStore.pendingCount)
 const totalUnreadCount = computed(() => unreadNotificationCount.value + unreadMessageCount.value + unreadTodoCount.value)
 
 // Actions
@@ -122,17 +117,26 @@ function handleItemClick(item: NotificationItem) {
   window.$message?.success(`已读: ${item.title}`)
 }
 
+function handleTodoItemClick(item: (typeof todos.value)[0]) {
+  showPopover.value = false
+  router.push({
+    name: 'workbench_approval',
+    query: { id: item.id },
+  })
+}
+
 function handleMarkAllRead() {
-  const markRead = (list: typeof notifications) => {
-    list.value.forEach(item => (item.read = true))
+  if (activeTab.value === 'notification') {
+    notifications.value.forEach(item => (item.read = true))
+    window.$message?.success('已将当前分类全部标记为已读')
   }
-  if (activeTab.value === 'notification')
-    markRead(notifications)
-  if (activeTab.value === 'message')
-    markRead(messages)
-  if (activeTab.value === 'todo')
-    markRead(todos)
-  window.$message?.success('已将当前分类全部标记为已读')
+  else if (activeTab.value === 'message') {
+    messages.value.forEach(item => (item.read = true))
+    window.$message?.success('已将当前分类全部标记为已读')
+  }
+  else if (activeTab.value === 'todo') {
+    window.$message?.info('待办审批单需前往审批中心逐项审核')
+  }
 }
 
 function handleClearTab() {
@@ -141,12 +145,12 @@ function handleClearTab() {
   if (activeTab.value === 'message')
     messages.value = []
   if (activeTab.value === 'todo')
-    todos.value = []
-  window.$message?.info('已清空当前分类消息')
+    window.$message?.info('待办审批单请前往审批中心进行审批处理')
 }
 
 function handleViewAll() {
-  window.$message?.info('正在前往消息中心查看全部历史消息（功能开发中...）')
+  showPopover.value = false
+  router.push({ name: 'workbench_approval' })
 }
 
 // 控制通知中心悬浮气泡的显示状态，用于在展示通知中心时禁用 Tooltip
@@ -154,7 +158,16 @@ const showPopover = ref(false)
 </script>
 
 <template>
-  <NPopover v-model:show="showPopover" trigger="click" placement="bottom-end" :width="360" :z-index="99" content-style="padding: 0;">
+  <NPopover
+    v-model:show="showPopover"
+    trigger="click"
+    placement="bottom-end"
+    :width="360"
+    :z-index="99"
+    raw
+    :show-arrow="false"
+    :theme-overrides="{ boxShadow: 'none' }"
+  >
     <template #trigger>
       <div>
         <ButtonIcon :tooltip-content="showPopover ? '' : '消息通知'">
@@ -165,7 +178,7 @@ const showPopover = ref(false)
       </div>
     </template>
 
-    <DarkModeContainer class="shadow-card w-360px flex flex-col overflow-hidden rounded-8px">
+    <DarkModeContainer class="w-360px flex flex-col overflow-hidden border border-gray-100 rounded-8px shadow-xl dark:border-zinc-800">
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-gray-100 px-16px py-12px dark:border-gray-800">
         <span class="text-16px text-gray-800 font-semibold dark:text-gray-200">通知中心</span>
@@ -269,8 +282,7 @@ const showPopover = ref(false)
                 v-for="item in todos"
                 :key="item.id"
                 class="flex cursor-pointer gap-12px px-16px py-12px transition-all duration-200 active:scale-99 hover:bg-gray-50 dark:hover:bg-gray-800/30"
-                :class="{ 'opacity-60': item.read }"
-                @click="handleItemClick(item)"
+                @click="handleTodoItemClick(item)"
               >
                 <div
                   class="h-36px w-36px flex-center flex-shrink-0 rounded-full text-white shadow-sm"
@@ -280,7 +292,7 @@ const showPopover = ref(false)
                 </div>
                 <div class="min-w-0 flex-1">
                   <div class="flex items-center justify-between gap-8px">
-                    <span class="truncate text-14px text-gray-800 font-medium dark:text-gray-200" :class="{ 'font-semibold': !item.read }">
+                    <span class="truncate text-14px text-gray-800 font-semibold dark:text-gray-200">
                       {{ item.title }}
                     </span>
                     <span class="flex-shrink-0 text-11px text-gray-400 dark:text-gray-500">{{ item.time }}</span>
@@ -289,11 +301,11 @@ const showPopover = ref(false)
                     {{ item.description }}
                   </p>
                 </div>
-                <div v-if="!item.read" class="mt-6px h-8px w-8px flex-shrink-0 rounded-full bg-primary" />
+                <div class="mt-6px h-8px w-8px flex-shrink-0 rounded-full bg-primary" />
               </div>
             </div>
             <div v-else class="flex flex-col items-center justify-center py-40px">
-              <NEmpty description="暂无待办" />
+              <NEmpty description="暂无待办审批" />
             </div>
           </NScrollbar>
         </NTabPane>

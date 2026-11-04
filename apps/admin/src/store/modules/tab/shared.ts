@@ -22,7 +22,7 @@ export function getAllTabs(tabs: App.Global.Tab[], homeTab?: App.Global.Tab) {
 
   const allTabs = [homeTab, ...fixedTabs, ...remainTabs]
 
-  return updateTabsLabel(allTabs)
+  return updateTabsLabel(updateTabsByI18nKey(allTabs))
 }
 
 /**
@@ -241,6 +241,7 @@ export function updateTabByI18nKey(tab: App.Global.Tab) {
 
   return {
     ...tab,
+    i18nKey: resolvedKey,
     label: (translated && translated !== resolvedKey) ? translated : label,
   }
 }

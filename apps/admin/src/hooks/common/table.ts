@@ -7,7 +7,7 @@ import { jsonClone } from '@sa/utils'
 import { computed, effectScope, onScopeDispose, reactive, shallowRef, watch } from 'vue'
 import { useAppStore } from '@/store/modules/app'
 
-export type UseNaiveTableOptions<ResponseData, ApiData, Pagination extends boolean> = Omit<
+export type UseNaiveTableOptions<ApiData, ResponseData = any, Pagination extends boolean = false> = Omit<
   UseTableOptions<ResponseData, ApiData, NaiveUI.TableColumn<ApiData>, Pagination>,
   'pagination' | 'getColumnChecks' | 'getColumns'
 > & {
@@ -27,7 +27,7 @@ const SELECTION_KEY = '__selection__'
 
 const EXPAND_KEY = '__expand__'
 
-export function useNaiveTable<ResponseData, ApiData>(options: UseNaiveTableOptions<ResponseData, ApiData, false>) {
+export function useNaiveTable<ApiData, ResponseData = any>(options: UseNaiveTableOptions<ApiData, ResponseData, false>) {
   const scope = effectScope()
   const appStore = useAppStore()
 
@@ -65,7 +65,7 @@ export function useNaiveTable<ResponseData, ApiData>(options: UseNaiveTableOptio
 
 type PaginationParams = Pick<PaginationProps, 'page' | 'pageSize'>
 
-type UseNaivePaginatedTableOptions<ResponseData, ApiData> = UseNaiveTableOptions<ResponseData, ApiData, true> & {
+type UseNaivePaginatedTableOptions<ApiData, ResponseData = any> = UseNaiveTableOptions<ApiData, ResponseData, true> & {
   paginationProps?: Omit<PaginationProps, 'page' | 'pageSize' | 'itemCount'>
   /**
    * whether to show the total count of the table
@@ -76,8 +76,8 @@ type UseNaivePaginatedTableOptions<ResponseData, ApiData> = UseNaiveTableOptions
   onPaginationParamsChange?: (params: PaginationParams) => void | Promise<void>
 }
 
-export function useNaivePaginatedTable<ResponseData, ApiData>(
-  options: UseNaivePaginatedTableOptions<ResponseData, ApiData>,
+export function useNaivePaginatedTable<ApiData, ResponseData = any>(
+  options: UseNaivePaginatedTableOptions<ApiData, ResponseData>,
 ) {
   const scope = effectScope()
   const appStore = useAppStore()
@@ -91,7 +91,7 @@ export function useNaivePaginatedTable<ResponseData, ApiData>(
     pageSize: 10,
     itemCount: 0,
     showSizePicker: true,
-    pageSizes: [10, 15, 20, 25, 30],
+    pageSizes: [10, 20, 50, 100],
     prefix: showTotal.value ? page => `共 ${page.itemCount} 条` : undefined,
     onUpdatePage(page) {
       pagination.page = page

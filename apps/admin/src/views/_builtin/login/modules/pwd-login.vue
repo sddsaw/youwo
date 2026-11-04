@@ -52,23 +52,15 @@ async function handleSubmit() {
       />
     </NFormItem>
     <NSpace vertical :size="24">
-      <div class="flex-y-center justify-between">
+      <div class="flex-y-center">
         <NCheckbox>{{ '记住我' }}</NCheckbox>
-        <NButton quaternary @click="toggleLoginModule('reset-pwd')">
-          {{ '忘记密码？' }}
-        </NButton>
       </div>
       <NButton type="primary" size="large" round block :loading="authStore.loginLoading" @click="handleSubmit">
         {{ '确认' }}
       </NButton>
-      <div class="flex-y-center justify-between gap-12px">
-        <NButton class="flex-1" block @click="toggleLoginModule('code-login')">
-          {{ loginModuleRecord['code-login'] }}
-        </NButton>
-        <NButton class="flex-1" block @click="toggleLoginModule('register')">
-          {{ loginModuleRecord.register }}
-        </NButton>
-      </div>
+      <NButton block @click="toggleLoginModule('code-login')">
+        {{ loginModuleRecord['code-login'] }}
+      </NButton>
     </NSpace>
   </NForm>
 </template>
