@@ -432,7 +432,7 @@ function handleSubmitted(item: Api.Knowledge.ArticleItem) {
         :y-gap="12"
         responsive="screen"
         label-placement="left"
-        label-width="auto"
+        label-width="100"
         :show-feedback="false"
       >
         <template #operate>
